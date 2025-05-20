@@ -6,7 +6,7 @@
 
 ## 🚀 Features
 
-- 📖 Add, update, and delete books
+- 📖 Add, update, and delete books and view summary of issued and due books
 - 👥 Manage library users
 - 🔄 Track book issuance and return
 - 🔍 Search books and members
@@ -18,7 +18,7 @@
 ## 🛠️ Tech Stack
 
 - **Backend**: Node.js, Express.js
-- **Frontend**: HTML, CSS (Static)
+- **Frontend**: HTML, CSS 
 - **Database**: SQLite (database.db)
 
 ---
