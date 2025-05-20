@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibStack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+  /* Reset and Font */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Body Layout */
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 40px;
+}
+
+/* Container */
+.container {
+  display: flex;
+  max-width: 1400px;
+  width: 100%;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background-color: #fff;
+  padding: 30px 20px;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: 600;
+  color: #301179;
+  margin-bottom: 40px;
+}
+
+.sidebar .nav-button {
+  background-color: #301179;
+  color: white;
+  padding: 16px;
+  margin-bottom: 25px;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebar .nav-button:hover {
+  background-color: #4a2fb0;
+}
+
+/* Main Content */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Header */
+.header {
+  background-color: #301179;
+  color: white;
+  padding: 25px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.header .title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.header .user {
+  font-size: 18px;
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 65px;
+  right: 30px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  flex-direction: column;
+}
+
+.dropdown-menu button {
+  background-color: white;
+  color: #301179;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f3f3f3;
+}
+
+/* Books Section */
+.books-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  width: 100%;
+}
+
+.book-card {
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-card h3 {
+  font-size: 16px;
+  color: #301179;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.book-card p {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.book-card button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #301179;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.book-card .not-available {
+  background-color: #AAA8B0;
+  cursor: not-allowed;
+}
+
+/* Filter Section */
+.filter-section {
+  background-color: white;
+  padding: 20px;
+  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+.filter-section h2 {
+  font-size: 18px;
+  color: #301179;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.filter-section input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #AAA8B0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+
+.filter-section button {
+  background-color: #301179;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    border-right: none;
+  }
+
+  .sidebar.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .header .title {
+    font-size: 18px;
+  }
+
+  .books-section {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .filter-section {
+    width: 100%;
+    margin: 20px 0;
+  }
+}
+/* Container for the filters */
+.filters {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+/* Style for each input field */
+.filters input {
+  padding: 10px;
+  
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  width: 200px;
+  transition: border-color 0.3s;
+
+}
+
+/* Focus effect for the input fields */
+.filters input:focus {
+  border-color:#301179; /* Green color on focus */
+  outline: none;
+}
+
+/* Placeholder text style */
+.filters input::placeholder {
+  color: #888;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filters input {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}
+/* Main Heading Style */
+.main-heading {
+  font-size: 2em; /* Larger text size */
+  font-weight: bold; /* Make it bold */
+  text-align: center; /* Center the text */
+  color: #301179; /* Dark color for the text */
+  margin: 20px 0; /* Add some spacing above and below the heading */
+}
+/* Hide dropdown on large screens */
+.dropdown-menu {
+  display: none;
+  flex-direction: column;
+  background-color: white;
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+}
+
+/* Show it when active */
+.dropdown-menu.active {
+  display: flex;
+}
+
+/* Hamburger visible only on small screens */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar {
+    display: none; /* Hide sidebar on mobile */
+  }
+
+  .dropdown-menu {
+    width: 200px;
+  }
+}
+
+
+  </style>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">📖 LibStack</div>
+  
+
+     <button class="nav-button" onclick="window.location.href='four.html'">ALL BOOKS</button>
+<button class="nav-button" onclick="window.location.href='Rulesuser.html'">BOOKS BORROWED</button>
+<button class="nav-button" onclick="window.location.href='contact.html'">CONTACT</button>
+<button class="nav-button" onclick="logout()">LOGOUT</button>
+
+    </div>
+
+
+    <div class="main">
+     
+        <div class="header">
+        <div class="title">ALL THE BOOKS</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="user">👤 Welcome</div>
+
+        <div id="dropdown" class="dropdown-menu">
+       <button class="nav-button" onclick="window.location.href='four.html'">ALL BOOKS</button>
+
+<button class="nav-button" onclick="window.location.href='Rulesuser.html'">BOOKS BORROWED</button>
+
+<button class="nav-button" onclick="window.location.href='contact.html'">CONTACT</button>
+<button class="nav-button" onclick="logout()">LOGOUT</button>
+        </div>
+      </div>
+       <h1 class="main-heading">Explore Our Book Collection</h1>
+<div class="filters">
+  <input type="text" id="book-name-filter" placeholder="Filter by book name..." oninput="filterBooks()">
+  <input type="text" id="subject-filter" placeholder="Filter by subject..." oninput="filterBooks()">
+</div>
+
+<div class="books-section" id="book-list">
+  <!-- Book cards will be populated here -->
+</div>
+
+      </div>
+    </div>
+  </div>
+<script>
+  
+  const bookListContainer = document.getElementById('book-list');
+
+// Load books initially
+fetchBooks();
+
+// Handle input changes for filtering
+function filterBooks() {
+  const bookName = document.getElementById('book-name-filter').value.trim();
+  const subject = document.getElementById('subject-filter').value.trim();
+  const filters = {};
+
+  if (bookName) filters.name = bookName;
+  if (subject) filters.subject = subject;
+
+  fetchBooks(filters);
+}
+
+// Fetch books with optional filters
+function fetchBooks(filters = {}) {
+  const query = new URLSearchParams(filters).toString();
+  fetch(`http://localhost:3000/books?${query}`)
+    .then(response => response.json())
+    .then(books => {
+      bookListContainer.innerHTML = '';
+      if (books.length === 0) {
+        bookListContainer.innerHTML = '<p>No books found.</p>';
+        return;
+      }
+
+      books.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.classList.add('book-card');
+        bookCard.id = `book-${book.id}`;
+
+        bookCard.innerHTML = `
+          <h3>${book.name}</h3>
+          <p>BY ${book.author}</p>
+          <p>PUBLISHED IN ${book.publishedYear}</p>
+          <p>SUBJECT: ${book.subject}</p>
+          <p class="available-copies">Available copies: <span>${book.availableCopies}</span></p>
+          <button onclick="borrowBook(${book.id}, '${book.name}')">BORROW</button>
+        `;
+
+        bookListContainer.appendChild(bookCard);
+      });
+    })
+    .catch(error => console.error('Error fetching books:', error));
+}
+
+function borrowBook(bookId, bookName) {
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    alert("You need to log in first.");
+    return;
+  }
+
+  const bookCard = document.getElementById(`book-${bookId}`);
+  const availableSpan = bookCard.querySelector('.available-copies span');
+  const availableCopies = parseInt(availableSpan.textContent);
+
+  if (availableCopies <= 0) {
+    alert('No copies available to borrow.');
+    return;
+  }
+
+  const issueDate = new Date();
+  const dueDate = new Date();
+  dueDate.setDate(issueDate.getDate() + 7);
+
+  const borrowData = {
+  userId: userId,
+  bookId: bookId,
+  borrowDate: issueDate.toISOString().split('T')[0]
+};
+
+  fetch('http://localhost:3000/borrow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(borrowData)
+  })
+  .then(async response => {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType && contentType.includes('application/json');
+    const data = isJson ? await response.json() : {};
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to borrow book');
+    }
+
+    alert(`You have borrowed "${bookName}" successfully!`);
+
+    // Update available copies in the UI
+    availableSpan.textContent = availableCopies - 1;
+    if (availableCopies - 1 <= 0) {
+      bookCard.querySelector('button').disabled = true;
+    }
+
+    // Append borrow info only once
+    if (!bookCard.querySelector('.borrow-info')) {
+      const infoDiv = document.createElement('div');
+      infoDiv.classList.add('borrow-info');
+      infoDiv.innerHTML = `
+        <p><strong>Borrow ID:</strong> ${data.borrowId}</p>
+        <p><strong>Borrowed By:</strong> ${data.borrowedBy}</p>
+        <p><strong>Issue Date:</strong> ${borrowData.issueDate}</p>
+        <p><strong>Due Date:</strong> ${borrowData.dueDate}</p>
+      `;
+      bookCard.appendChild(infoDiv);
+    }
+  })
+  .catch(error => {
+    console.error('Error borrowing book:', error);
+    alert(`Failed to borrow book: ${error.message}`);
+  });
+}
+
+  function toggleMenu() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.classList.toggle("active");
+  }
+
+    function logout() {
+    // Clear sessionStorage
+    sessionStorage.clear();
+
+    // Optionally show a message
+    alert("Logged out!");
+
+    // Redirect to login page
+    window.location.href = "login.html"; // change as per your file name
+  }
+  
+
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibTrack Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #fff;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            display: flex;
+            width: 800px;
+            height: 450px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .left {
+            background-color: #301179;
+            color: white;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .left img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .left h1 {
+            font-size: 24px;
+        }
+        .right {
+            background-color: white;
+            width: 60%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        .right h2 {
+            color: #301179;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 15px;
+            border: none;
+            background: #f1f1f1;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px #ccc;
+            font-size: 16px;
+        }
+        .role-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .role-buttons button {
+            background-color: #301179;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .login-btn {
+            background-color: #301179;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .register-link {
+            text-align: center;
+            font-size: 14px;
+            color: #AAA8B0;
+        }
+        .register-link a {
+            color: #301179;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="left">
+                <i class="fas fa-book fa-5x" style="color: white; margin-bottom: 20px;"></i>
+                <h1>LibTrack</h1>
+            </div>
+
+            <div class="right">
+                <h2>LOGIN</h2>
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <div class="role-buttons">
+                    <button type="button" class="active" data-role="STUDENT">STUDENT</button>
+                    <button type="button" data-role="ADMIN">ADMIN</button>
+                </div>
+                <button class="login-btn">LOGIN</button>
+                <div class="register-link">
+                    Don't have an account? <a href="Register.html">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    
+
+// Event listener for the Login button
+document.querySelector('.login-btn').addEventListener('click', function () {
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
+    const role = document.querySelector('.role-buttons button.active')?.dataset.role || 'STUDENT'; // Default to 'STUDENT'
+
+    if (!username || !password || !role) {
+        alert('All fields are required');
+        return;
+    }
+
+    fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include', // ✅ Important for session/cookie support
+        body: JSON.stringify({ username, password, role })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Login successful') {
+            alert('Login successful!');
+
+            // Set user info in sessionStorage
+            sessionStorage.setItem('username', data.username);
+            sessionStorage.setItem('role', data.role);
+            sessionStorage.setItem('id', data.id);
+
+            // Redirect to appropriate page based on role
+            if (data.role === 'STUDENT') {
+                window.location.href = 'four.html';
+            } else if (data.role === 'ADMIN') {
+                window.location.href = 'allbooksadmin.html';
+            }
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong.');
+    });
+});
+
+// Role button functionality
+document.querySelectorAll('.role-buttons button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.role-buttons button').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+    });
+});
+</script>
+</body>
+</html>

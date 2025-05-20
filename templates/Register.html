@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<body lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LibTrack Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-box {
+      display: flex;
+      width: 800px;
+      height: 520px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .left {
+      background-color: #301179;
+      color: white;
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .left h1 {
+      font-size: 28px;
+      margin-top: 20px;
+    }
+    .right {
+      background-color: white;
+      width: 60%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    .right h2 {
+      color: #301179;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    input[type="text"], input[type="password"], input[type="email"] {
+      padding: 12px 15px;
+      border: none;
+      background: #f1f1f1;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px #ccc;
+      font-size: 16px;
+    }
+    .role-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .role-buttons button {
+      background-color: #301179;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .role-buttons button.active {
+      background-color: #5f3dc4;
+    }
+    .register-btn {
+      background-color: #301179;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background 0.3s ease;
+    }
+    .register-btn:hover {
+      background-color: #5f3dc4;
+    }
+    .login-link {
+      text-align: center;
+      font-size: 14px;
+      color: #AAA8B0;
+    }
+    .login-link a {
+      color: #301179;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="login-box">
+    <div class="left">
+      <i class="fas fa-book fa-5x" style="margin-bottom: 20px;"></i>
+      <h1>LibTrack</h1>
+    </div>
+
+    <div class="right">
+      <h2>REGISTER</h2>
+
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
+      
+<div class="role-buttons">
+  <button type="button" class="active">STUDENT</button>
+  <button type="button" class="active">ADMIN</button>
+</div>
+
+      <button class="register-btn" type="button">REGISTER</button>
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelector('.register-btn').addEventListener('click', function () {
+    const email = document.querySelector('input[name="email"]').value;
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+    const role = document.querySelector('.role-buttons button.active')?.innerText || 'STUDENT';
+
+    if (!email || !username || !password || !confirmPassword) {
+      alert('All fields are required');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, username, password, role })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'User registered successfully.') {
+          alert('Registration successful!');
+          window.location.href = 'login.html';
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong.');
+      });
+  });
+
+  // Highlight active role button
+  document.querySelectorAll('.role-buttons button').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.role-buttons button').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

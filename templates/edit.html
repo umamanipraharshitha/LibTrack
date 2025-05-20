@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LibStack - Edit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fff;
+      color: #301179;
+    }
+
+    header {
+      background-color: #301179;
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo::before {
+      content: "📖";
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+
+    .user::before {
+      content: "👤";
+      margin-right: 6px;
+    }
+
+    main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 3rem 4rem;
+      gap: 3rem;
+    }
+
+    .due-list {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 12px;
+      flex: 1.5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 15px;
+    }
+
+    th, td {
+      padding: 8px 15px;
+      font-size: 1rem;
+      height: 60px;
+      text-align: left;
+      background-color: #fff;
+      color: #301179;
+    }
+
+    th {
+      background-color: #EEE;
+      font-weight: 600;
+    }
+
+    tr {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .back-btn {
+      margin-top: 2rem;
+      background-color: #301179;
+      color: white;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .edit-section {
+      background-color: #301179;
+      color: white;
+      padding: 2.5rem;
+      border-radius: 25px;
+      width: 350px;
+      flex-shrink: 0;
+    }
+
+    .edit-section h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+    }
+
+    .edit-section input {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 25px;
+      border: none;
+      font-size: 0.95rem;
+      color: #301179;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background-color: white;
+      color: #301179;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">LibStack</div>
+    <div class="user">welcome</div>
+  </header>
+<main>
+    <!-- Due List Section -->
+    <div class="due-list">
+      <h2>Due List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date of Issue</th>
+            <th>Due</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="due-list-body">
+          <!-- Dynamic rows will be inserted here -->
+        </tbody>
+      </table>
+      <button class="back-btn" onclick="goBack()">BACK</button>
+    </div>
+
+    <!-- Edit Section -->
+    <div class="edit-section">
+      <h2>Edit Book</h2>
+      <input type="text" id="book-name" placeholder="Enter the BOOK name" />
+      <input type="text" id="publisher-name" placeholder="Enter the publisher name" />
+      <input type="text" id="subject-name" placeholder="Enter the subject name" />
+      <input type="text" id="published-year" placeholder="Enter the published year" />
+      <input type="number" id="available-copies" placeholder="No. of available copies" />
+      <button class="submit-btn" onclick="submitEdit()">SUBMIT</button>
+    </div>
+  </main>
+
+  <script>
+    // Simulating data for the due list
+    const dueListData = [
+      { id: 1, name: 'Book A', issueDate: '2023-01-15', dueDate: '2023-02-15' },
+      { id: 2, name: 'Book B', issueDate: '2023-02-01', dueDate: '2023-03-01' },
+      { id: 3, name: 'Book C', issueDate: '2023-03-20', dueDate: '2023-04-20' }
+    ];
+
+    // Display the due list in the table
+    const displayDueList = () => {
+      const tableBody = document.getElementById('due-list-body');
+      tableBody.innerHTML = '';
+      dueListData.forEach((book, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${book.name}</td>
+          <td>${book.issueDate}</td>
+          <td>${book.dueDate}</td>
+          <td><button onclick="editBook(${book.id})">Edit</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    };
+
+    // Edit book based on the book id
+    const editBook = (id) => {
+      const book = dueListData.find(book => book.id === id);
+      if (book) {
+        document.getElementById('book-name').value = book.name;
+        document.getElementById('publisher-name').value = book.publisher || '';
+        document.getElementById('subject-name').value = book.subject || '';
+        document.getElementById('published-year').value = book.publishedYear || '';
+        document.getElementById('available-copies').value = book.availableCopies || '';
+      }
+    };
+
+    // Edit functionality
+    const submitEdit = () => {
+      const name = document.getElementById('book-name').value;
+      const publisher = document.getElementById('publisher-name').value;
+      const subject = document.getElementById('subject-name').value;
+      const publishedYear = document.getElementById('published-year').value;
+      const availableCopies = document.getElementById('available-copies').value;
+
+      // You can send this data to the backend to update the book information
+      console.log('Edited Book Details:', { name, publisher, subject, publishedYear, availableCopies });
+
+      alert('Book details updated successfully!');
+    };
+
+    // Go back to the previous page or section
+    const goBack = () => {
+      window.history.back();
+    };
+
+    // Call the function to display the due list when the page loads
+    displayDueList();
+  </script>
+
+</body>
+</html>

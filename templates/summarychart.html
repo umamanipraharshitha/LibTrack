@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LibStack - Summary Chart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color:rgb(255, 255, 255);
+    }
+
+    header {
+      background-color: #301179;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    header .user {
+      font-size: 1rem;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 80px);
+    }
+
+    .sidebar {
+      background-color:rgb(255, 255, 255);
+      padding: 40px 20px;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar .box-button {
+      background-color: #301179;
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .sidebar .box-button:hover {
+      background-color: #3a58b2;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-content h1 {
+      color: #301179;
+      margin-bottom: 40px;
+    }
+
+    canvas {
+      max-width: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📖 LibStack</div>
+    <div class="user">👤 Welcome Admin</div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <button class="box-button" onclick="location.href='allbooksadmin.html'">BOOKS</button>
+      <button class="box-button" onclick="location.href='duebooks.html'">DUES OF BOOKS</button>
+      <button class="box-button" onclick="location.href='studentlog.html'">STUDENT LOG</button>
+         <button class="box-button" onclick="location.href='summarychart.html'">SUMMARY CHART</button>
+      <button class="box-button" onclick="logout()">LOGOUT</button>
+    </div>
+
+    <div class="main-content">
+      <h1>Summary of Borrowed Books</h1>
+      <canvas id="summaryChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    async function fetchSummaryData() {
+      const res = await fetch("http://localhost:3000/due", {
+        credentials: "include"
+      });
+
+      const books = await res.json();
+      const summary = {
+        Returned: 0,
+        Due: 0,
+        Fined: 0
+      };
+
+      const today = new Date();
+
+      books.forEach(book => {
+        if (book.returned) {
+          summary.Returned++;
+        } else if (new Date(book.dueDate) < today) {
+          summary.Fined++;
+        } else {
+          summary.Due++;
+        }
+      });
+
+      renderChart(summary);
+    }
+
+    function renderChart(summary) {
+      const ctx = document.getElementById('summaryChart').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Returned', 'Due', 'Fined'],
+          datasets: [{
+            label: 'Book Status',
+            data: [summary.Returned, summary.Due, summary.Fined],
+            backgroundColor: ['#4e79a7', '#a9bcd0', '#e15759'],
+            borderColor: ['#ffffff'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#333',
+                font: {
+                  size: 14
+                }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#f9f9f9',
+              titleColor: '#333',
+              bodyColor: '#333'
+            }
+          }
+        }
+      });
+    }
+
+    fetchSummaryData();
+  </script>
+</body>
+</html>

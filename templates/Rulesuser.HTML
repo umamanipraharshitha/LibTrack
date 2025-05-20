@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibStack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+      padding: 40px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1400px;
+      width: 100%;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      padding: 30px 20px;
+      border-right: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar .logo {
+      font-size: 24px;
+      font-weight: 600;
+      color: #301179;
+      margin-bottom: 40px;
+    }
+
+    .sidebar .nav-button {
+      background-color: #301179;
+      color: white;
+      padding: 16px;
+      margin-bottom: 25px;
+      border: none;
+      border-radius: 12px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar .nav-button:hover {
+      background-color: #4a2fb0;
+    }
+
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background-color: #301179;
+      color: white;
+      padding: 25px 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    .protocol-box {
+      background-color: #301179;
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 320px;
+      margin: 20px;
+    }
+
+    .borrowed-books {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .borrowed-books h2 {
+      color: #301179;
+      margin-bottom: 20px;
+    }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .book-card h4 {
+      color: #301179;
+    }
+
+    .book-card .meta {
+      font-size: 12px;
+      color: #AAA8B0;
+      margin: 5px 0;
+    }
+
+    .book-card .status {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .due {
+      background-color: #301179;
+      color: white;
+    }
+
+    .fined {
+      background-color: red;
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 999;
+        background-color: white;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .container {
+        flex-direction: column;
+      }
+
+      .protocol-box {
+        width: 100%;
+        margin: 20px 0;
+      }
+       .protocol-box {
+  max-width: 1000px; /* Increased width */
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+    }
+    .protocol-box {
+  max-width: 400px; /* Increased width */
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+
+.protocol-box h3 {
+  margin-bottom: 15px;
+  color:#301179;
+  font-size: 22px;
+}
+
+.protocol-box p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #939393;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo">📖 LibStack</div>
+      
+     <button class="nav-button" onclick="window.location.href='four.html'">ALL BOOKS</button>
+<button class="nav-button" onclick="window.location.href='Rulesuser.html'">BOOKS BORROWED</button>
+<button class="nav-button" onclick="window.location.href='contact.html'">CONTACT</button>
+<button class="nav-button" onclick="logout()">LOGOUT</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <div class="header">
+        <div class="title">ALL THE BOOKS</div>
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="user">👤 Welcome, <span id="username">User</span></div>
+      </div>
+ <div class="borrowed-books">
+        <h2>BORROWED BOOKS</h2>
+        <div class="book-grid" id="borrowed-books-grid">
+          <!-- Books will be dynamically inserted here -->
+        </div>
+      </div>
+      
+     
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("hamburger").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("open");
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = sessionStorage.getItem("username");
+      const userId = sessionStorage.getItem("id");
+
+      if (username) {
+        document.getElementById("username").textContent = username;
+      }
+
+      if (!userId) {
+        document.getElementById("borrowed-books-grid").innerHTML = "<p>You are not logged in.</p>";
+        return;
+      }
+
+      fetchBorrowedBooks(userId);
+    });
+
+    async function fetchBorrowedBooks(userId) {
+      const container = document.getElementById("borrowed-books-grid");
+      container.innerHTML = "<p>Loading borrowed books...</p>";
+
+      try {
+        const response = await fetch(`http://localhost:3000/rules?userId=${userId}`);
+        if (!response.ok) {
+          container.innerHTML = "<p>Unable to fetch borrowed books.</p>";
+          return;
+        }
+
+        const books = await response.json();
+        container.innerHTML = "";
+
+        if (books.length === 0) {
+          container.innerHTML = "<p>No borrowed books found.</p>";
+          return;
+        }
+
+        books.forEach(book => {
+          const card = document.createElement("div");
+          card.className = "book-card";
+          card.innerHTML = `
+            <h4>${book.bookName}</h4>
+            <div class="meta">
+              BY ${book.author}<br>
+              Issued: ${book.issueDate}
+            </div>
+            <div class="status due">Due: ${book.dueDate}</div>
+          `;
+          container.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error("Failed to fetch borrowed books:", error);
+        container.innerHTML = "<p>Error loading books. Please try again later.</p>";
+      }
+    }
+    function logout() {
+    // Clear sessionStorage
+    sessionStorage.clear();
+
+    // Optionally show a message
+    alert("Logged out!");
+
+    // Redirect to login page
+    window.location.href = "login.html"; // change as per your file name
+  }
+  </script>
+</body>
+</html>

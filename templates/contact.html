@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibStack - Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and Font */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Body Layout */
+    body {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+      padding: 40px;
+    }
+
+    /* Container */
+    .container {
+      display: flex;
+      max-width: 1400px;
+      width: 100%;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      padding: 30px 20px;
+      border-right: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar .logo {
+      font-size: 24px;
+      font-weight: 600;
+      color: #301179;
+      margin-bottom: 40px;
+    }
+
+    .sidebar .nav-button {
+      background-color: #301179;
+      color: white;
+      padding: 16px;
+      margin-bottom: 25px;
+      border: none;
+      border-radius: 12px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar .nav-button:hover {
+      background-color: #4a2fb0;
+    }
+
+    /* Main Content */
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      background-color: #301179;
+      color: white;
+      padding: 25px 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .header .title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .header .user {
+      font-size: 18px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 65px;
+      right: 30px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    .dropdown-menu button {
+      background-color: white;
+      color: #301179;
+      border: none;
+      padding: 12px 20px;
+      font-size: 15px;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dropdown-menu button:hover {
+      background-color: #f3f3f3;
+    }
+
+    /* Contact Form Section */
+    .contact-form-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .contact-form,
+    .rules-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 48%;
+      padding: 20px;
+    }
+
+    .contact-form h1 {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #301179;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .contact-form button {
+      background-color: #301179;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: #4a2fb0;
+    }
+
+    /* Rules Card */
+    .rules-card h2 {
+      color: #301179;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .rules-card ul {
+      font-size: 16px;
+      line-height: 1.8;
+      color:grey;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: block;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        display: none;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .sidebar.active {
+        display: flex;
+      }
+
+      .main {
+        width: 100%;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .contact-form-container {
+        flex-direction: column;
+      }
+
+      .contact-form,
+      .rules-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">📖 LibStack</div>
+      <button class="nav-button" onclick="window.location.href='four.html'">ALL BOOKS</button>
+      <button class="nav-button" onclick="window.location.href='Rulesuser.html'">BOOKS BORROWED</button>
+      <button class="nav-button" onclick="window.location.href='contact.html'">CONTACT</button>
+      <button class="nav-button" onclick="logout()">LOGOUT</button>
+    </div>
+
+    <div class="main">
+      <div class="header">
+        <div class="title">CONTACT US</div>
+        
+        <div class="user" id="user-name"></div>
+      </div>
+
+      <div class="contact-form-container">
+        <div class="contact-form">
+          <h1>Get in Touch</h1>
+          <form id="contact-form">
+            <input type="text" id="name" placeholder="Your Name" required />
+            <input type="email" id="email" placeholder="Your Email" required />
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+
+        <div class="rules-card">
+          <h2>Library Rules</h2>
+          <ul>
+            <li>Return books within 7 days to avoid fines.</li>
+            <li>Late return will result in a fine </li>
+            <li>Keep books in good condition.</li>
+            <li>Contact us if you need assistance with your account.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Access username from sessionStorage
+    const username = sessionStorage.getItem('username');
+    document.getElementById('user-name').textContent = `Welcome, ${username}`;
+
+    // Hamburger Menu Toggle
+    function toggleMenu() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('active');
+    }
+
+    // Contact Form Submission (Simulate sending email)
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      // Use an email service (like EmailJS) to send the email here.
+      alert(`Message sent from ${name} (${email}):\n${message}`);
+    });
+
+    function logout() {
+    // Clear sessionStorage
+    sessionStorage.clear();
+
+    // Optionally show a message
+    alert("Logged out!");
+
+    // Redirect to login page
+    window.location.href = "login.html"; // change as per your file name
+  }
+  
+  </script>
+</body>
+</html>
