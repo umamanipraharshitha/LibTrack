@@ -20,7 +20,6 @@
 - **Backend**: Node.js, Express.js
 - **Frontend**: HTML, CSS (Static)
 - **Database**: SQLite (database.db)
-- **Templating**: EJS or Static HTML (as per your structure)
 
 ---
 
