@@ -1,6 +1,7 @@
 # 📚 LibTrack - Library Management System
 
 **LibTrack** is a simple and efficient web-based Library Management System that helps in managing books, users, and their transactions. Built with **Node.js**, **Express**, and **SQLite**, this system is ideal for small-scale library operations.
+- Contributors: Ameerunnisa Khan {https://github.com/Ameer-design351} , Venkata Omanand{https://github.com/Venkataomanand}
 
 ---
 
